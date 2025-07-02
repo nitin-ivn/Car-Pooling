@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router'
 import Layout from './Layout'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './Components/Home/Home'
 import { Provider } from 'react-redux'
 import store from './store/store'
