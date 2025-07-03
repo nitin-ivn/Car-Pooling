@@ -2,14 +2,11 @@
     background-color: var(--background);
     min-height: 100%;
     overflow: hidden;
+    background-image: url('/mapbg.webp');
     color: var(--foreground);
 }
 
-.car-section{
-    min-height: 60vh;
-    background-color: var(--foreground);
-}
-
-.inputs{
-    min-height: 100%;
+.hero{
+    width: 100%;
+    min-height: 93vh;
 }
