@@ -31,6 +31,7 @@ public class UserController {
     @PostMapping("login")
     public String login(@RequestBody User user){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+        System.out.println(user);
 
         if(authentication.isAuthenticated()){
             return jwtService.generateToken(user.getEmail());

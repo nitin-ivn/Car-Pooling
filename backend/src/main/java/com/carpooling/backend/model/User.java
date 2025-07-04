@@ -1,14 +1,17 @@
 package com.carpooling.backend.model;
 
+import com.carpooling.backend.service.MyGenerator;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    @GeneratedValue(generator = MyGenerator.generatorName)
+    @GenericGenerator(name = MyGenerator.generatorName, strategy = "com.carpooling.backend.service.MyGenerator")
+    private String userId;
 
     private String name;
     private String password;
@@ -16,11 +19,11 @@ public class User {
     private long phoneNumber;
     private float rating;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -64,7 +67,7 @@ public class User {
         this.rating = rating;
     }
 
-    public User(int userId, String name, String password, String email, long phoneNumber, float rating) {
+    public User(String userId, String name, String password, String email, long phoneNumber, float rating) {
         this.userId = userId;
         this.name = name;
         this.password = password;

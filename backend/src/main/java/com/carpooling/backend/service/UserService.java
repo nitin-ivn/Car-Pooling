@@ -18,4 +18,8 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
+
+    public String findIdByEmail(String email){
+        return repo.findByEmail(email).getUserId();
+    }
 }
