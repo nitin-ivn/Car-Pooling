@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -34,9 +32,16 @@ public class UserController {
         System.out.println(user);
 
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(user.getEmail());
+            return jwtService.generateToken(user.getEmail(),service.findIdByEmail(user.getEmail()));
         }else{
             return "Failed";
         }
+    }
+
+    @GetMapping("getUser/{userId}")
+    public User getUserById(@PathVariable String userId){
+        System.out.println(userId);
+        System.out.println(service.findUserById(userId));
+        return service.findUserById(userId);
     }
 }

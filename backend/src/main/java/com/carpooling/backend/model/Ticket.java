@@ -1,7 +1,10 @@
 package com.carpooling.backend.model;
 
 import com.carpooling.backend.service.MyGenerator;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,17 +16,15 @@ import java.io.Serializable;
 @Getter
 @Entity
 @Data
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "tickets")
+public class Ticket implements Serializable {
 
     @Id
     @GeneratedValue(generator = MyGenerator.generatorName)
     @GenericGenerator(name = MyGenerator.generatorName, strategy = "com.carpooling.backend.service.MyGenerator")
-    private String userId;
+    private String ticketId;
 
-    private String name;
-    private String password;
-    private String email;
-    private long phoneNumber;
-    private float rating;
+    private String rideId;
+    private String hostedUserId;
+    private String passengerId;
 }

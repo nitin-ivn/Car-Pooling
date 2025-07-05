@@ -22,4 +22,8 @@ public class UserService {
     public String findIdByEmail(String email){
         return repo.findByEmail(email).getUserId();
     }
+
+    public User findUserById(String userId){
+        return repo.findByUserId(userId);
+    }
 }
