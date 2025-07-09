@@ -1,9 +1,12 @@
 package com.carpooling.backend.controller;
 
+import com.carpooling.backend.exceptions.CustomException;
 import com.carpooling.backend.model.Ride;
 import com.carpooling.backend.model.Ticket;
 import com.carpooling.backend.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +35,14 @@ public class RideController {
     }
 
     @GetMapping("/bookRide/{rideId}/{fromStop}/{toStop}/{passengerId}")
-    public Ticket bookRide(@PathVariable String rideId, @PathVariable String fromStop, @PathVariable String toStop, @PathVariable String passengerId){
-        return service.bookRide(rideId,fromStop,toStop,passengerId);
+    public ResponseEntity<?> bookRide(@PathVariable String rideId, @PathVariable String fromStop, @PathVariable String toStop, @PathVariable String passengerId){
+        try{
+            Ticket ticket = service.bookRide(rideId,fromStop,toStop,passengerId);
+            return ResponseEntity.ok(ticket);
+        }catch (CustomException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Booking failed: " + e.getMessage());
+        }
+
     }
 
     @PutMapping("/cancelRide/{ticketId}")

@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,10 +29,10 @@ public class Ride implements Serializable {
     private String userId;
     private String fromLocation;
     private String toLocation;
-    private Date dateOfRide;
-    private int time;
+    private LocalDate dateOfRide;
+    private LocalTime time;
     private double price;
-    private boolean status;
+    private boolean active;
     private int noOfPassengers;
     private int maxNumberOfPassengers;
 
