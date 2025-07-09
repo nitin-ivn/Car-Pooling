@@ -34,6 +34,7 @@ public class Ride implements Serializable {
     private int noOfPassengers;
     private int maxNumberOfPassengers;
 
-    @OneToMany(mappedBy = "ride")
+    @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
+    @OrderBy("stopId ASC")
     private List<Stops> stops;
 }

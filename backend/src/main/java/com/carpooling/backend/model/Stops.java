@@ -1,5 +1,6 @@
 package com.carpooling.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class Stops {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int stopId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ride_id")
     private Ride ride;

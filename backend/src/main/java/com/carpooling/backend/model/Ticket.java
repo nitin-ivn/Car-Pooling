@@ -26,5 +26,8 @@ public class Ticket implements Serializable {
 
     private String rideId;
     private String hostedUserId;
+    private String fromStop;
+    private String toStop;
     private String passengerId;
+    private boolean completed;
 }
