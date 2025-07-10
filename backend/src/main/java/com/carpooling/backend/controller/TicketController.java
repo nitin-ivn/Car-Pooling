@@ -1,7 +1,7 @@
 package com.carpooling.backend.controller;
 
 import com.carpooling.backend.model.Ticket;
-import com.carpooling.backend.service.TicketService;
+import com.carpooling.backend.service.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,7 @@ import java.util.List;
 public class TicketController {
 
     @Autowired
-    TicketService service;
+    TicketServiceImpl service;
 
     @GetMapping("/MyTickets/{passengerId}")
     public List<Ticket> getMyTickets(@PathVariable String passengerId){

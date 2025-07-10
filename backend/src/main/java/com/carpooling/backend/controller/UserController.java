@@ -2,7 +2,7 @@ package com.carpooling.backend.controller;
 
 import com.carpooling.backend.model.User;
 import com.carpooling.backend.service.JwtService;
-import com.carpooling.backend.service.UserService;
+import com.carpooling.backend.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
     @Autowired
-    private UserService service;
+    private UserServiceImpl service;
 
     @Autowired
     private JwtService jwtService;
