@@ -14,8 +14,11 @@ import java.util.List;
 @RestController
 public class RideController {
 
-    @Autowired
-    private RideServiceImpl service;
+    private final RideServiceImpl service;
+
+    public RideController(RideServiceImpl service) {
+        this.service = service;
+    }
 
     @PostMapping("addRide")
     public Ride addRide(@RequestBody Ride ride){
@@ -29,18 +32,24 @@ public class RideController {
 
     @GetMapping("findRidesBetween/{from}/{to}")
     public List<Ride> findRidesBetween(@PathVariable(name = "from") String fromLocation, @PathVariable(name = "to") String toLocation){
+        System.out.println(fromLocation + " " + toLocation);
         return service.findRidesBetween(fromLocation, toLocation);
     }
 
     @GetMapping("/bookRide/{rideId}/{fromStop}/{toStop}/{passengerId}")
-    public ResponseEntity<?> bookRide(@PathVariable String rideId, @PathVariable String fromStop, @PathVariable String toStop, @PathVariable String passengerId) throws CustomException {
+    public ResponseEntity<?> bookRide(@PathVariable String rideId, @PathVariable String fromStop, @PathVariable String toStop, @PathVariable String passengerId){
         Ticket ticket = service.bookRide(rideId,fromStop,toStop,passengerId);
         return ResponseEntity.ok(ticket);
 
     }
 
-    @PutMapping("/cancelRide/{ticketId}")
-    public boolean cancelRide(@PathVariable String ticketId){
-        return service.cancelRide(ticketId);
+    @PutMapping("/cancelPassengerRide/{ticketId}")
+    public boolean cancelPassengerRide(@PathVariable String ticketId){
+        return service.cancelPassengerRide(ticketId);
+    }
+
+    @DeleteMapping("/cancelHostedRide/{rideId}")
+    public boolean cancelHostedRide(@PathVariable String rideId){
+        return service.cancelHostedRide(rideId);
     }
 }

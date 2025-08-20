@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private UserRepo repo;
+    private final UserRepo repo;
+    private final BCryptPasswordEncoder encoder;
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    public UserServiceImpl(UserRepo repo){
+        this.repo = repo;
+        this.encoder = new BCryptPasswordEncoder(12);
+    }
 
     @Override
     public User save(User user){

@@ -30,5 +30,6 @@ public class Ticket implements Serializable {
     private String toStop;
     private String passengerId;
     private boolean completed;
+    private boolean cancelled;
     private boolean active;
 }

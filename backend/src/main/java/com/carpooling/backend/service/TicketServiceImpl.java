@@ -10,8 +10,14 @@ import java.util.List;
 @Service
 public class TicketServiceImpl implements TicketService{
 
-    @Autowired
-    TicketRepo repo;
+//    @Autowired
+//    TicketRepo repo;
+
+    private final TicketRepo repo;
+
+    public TicketServiceImpl(TicketRepo ticketRepo) {
+        this.repo = ticketRepo;
+    }
 
     @Override
     public List<Ticket> getTickets(String passengerId) {

@@ -16,5 +16,7 @@ public interface RideService {
     Ticket bookRide(String rideId, String from, String to, String passengerId) throws CustomException;
 
 
-    boolean cancelRide(String ticketId);
+    boolean cancelPassengerRide(String ticketId);
+
+    boolean cancelHostedRide(String rideId);
 }

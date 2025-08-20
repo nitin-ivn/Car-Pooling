@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserServiceImpl service;
+    private final UserServiceImpl service;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public UserController(UserServiceImpl service, JwtService jwtService, AuthenticationManager authenticationManager){
+        this.service = service;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
 
     @PostMapping("register")
     public User register(@RequestBody User user){

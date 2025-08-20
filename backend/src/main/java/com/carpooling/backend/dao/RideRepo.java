@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RideRepo extends JpaRepository<Ride, String> {
-    List<Ride> findByUserIdAndStatusTrue(String userId);
+    List<Ride> findByUserIdAndActiveTrue(String userId);
 }
