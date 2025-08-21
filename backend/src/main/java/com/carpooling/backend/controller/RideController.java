@@ -5,6 +5,7 @@ import com.carpooling.backend.model.Ride;
 import com.carpooling.backend.model.Ticket;
 import com.carpooling.backend.service.RideServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +39,13 @@ public class RideController {
 
     @GetMapping("/bookRide/{rideId}/{fromStop}/{toStop}/{passengerId}")
     public ResponseEntity<?> bookRide(@PathVariable String rideId, @PathVariable String fromStop, @PathVariable String toStop, @PathVariable String passengerId){
-        Ticket ticket = service.bookRide(rideId,fromStop,toStop,passengerId);
-        return ResponseEntity.ok(ticket);
-
+        try{
+            Ticket ticket = service.bookRide(rideId,fromStop,toStop,passengerId);
+            return ResponseEntity.ok(ticket);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("/cancelPassengerRide/{ticketId}")

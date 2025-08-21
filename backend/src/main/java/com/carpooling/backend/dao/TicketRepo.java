@@ -2,6 +2,7 @@ package com.carpooling.backend.dao;
 
 import com.carpooling.backend.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface TicketRepo extends JpaRepository<Ticket, String> {
     List<Ticket> findByPassengerId(String passengerId);
     List<Ticket> findByPassengerIdAndActiveTrue(String passengerId);
     List<Ticket> findByRideId(String rideId);
+
 }

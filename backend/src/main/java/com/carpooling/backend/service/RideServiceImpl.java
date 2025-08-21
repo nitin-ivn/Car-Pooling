@@ -11,6 +11,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class RideServiceImpl implements RideService{
 
     private final RideRepo repo;
     private final TicketRepo ticketRepo;
+    private String rideBookingErrorMessage;
 
     public RideServiceImpl(RideRepo repo, TicketRepo ticketRepo) {
         this.repo = repo;
@@ -60,7 +64,9 @@ public class RideServiceImpl implements RideService{
     }
 
     public List<Ride> findRidesBetween(String from, String to){
-        List<Ride> allRides = repo.findAll();
+        LocalDate today = LocalDate.now();
+        LocalTime nowTime = LocalTime.now();
+        List<Ride> allRides = repo.findByActiveTrue();
         List<Ride> matchingRides = new ArrayList<>();
 
         for(Ride ride: allRides){
@@ -84,8 +90,10 @@ public class RideServiceImpl implements RideService{
 
         Ride ride = repo.findById(rideId).orElseThrow(RideNotFoundException::new);
 
+
         if(!isValidAndCanBook(ride,passengerId)){
-            throw new CustomException("Invalid ride");
+            System.out.println(this.rideBookingErrorMessage);
+            throw new CustomException(this.rideBookingErrorMessage);
         }
         List<Stops> stops = ride.getStops();
 
@@ -112,6 +120,7 @@ public class RideServiceImpl implements RideService{
         ticket.setFromStop(from);
         ticket.setToStop(to);
         ticket.setPassengerId(passengerId);
+        ticket.setCreationDate(LocalDateTime.now());
         ticket.setCompleted(true);
         ticket.setActive(true);
         ticket.setCancelled(false);
@@ -122,14 +131,21 @@ public class RideServiceImpl implements RideService{
     private boolean isValidAndCanBook(Ride ride, String passengerId) {
 
         //cant book his own ride
-        if(ride.getUserId().equals(passengerId)) return false;
+        if(ride.getUserId().equals(passengerId)){
+            this.rideBookingErrorMessage = "Can't Book his own ride";
+            return false;
+        }
 
         //cant be a passenger and host at same time
         List<Ride> passengerRides = repo.findByUserIdAndActiveTrue(passengerId);
         for (Ride ride1 : passengerRides){
             if(!ride1.getRideId().equals(ride.getRideId()) &&
                 ride1.getDateOfRide().equals(ride.getDateOfRide()) &&
-                ride1.getTime().equals(ride.getTime())) throw new CustomException("Passenger is already hosting a ride at same time");
+                ride1.getTime().equals(ride.getTime())){
+                this.rideBookingErrorMessage = "Passenger is already hosting a ride at same time";
+                System.out.println(this.rideBookingErrorMessage);
+                return false;
+            }
         }
 
         //passenger cant ride two at once
@@ -138,7 +154,9 @@ public class RideServiceImpl implements RideService{
             Ride bookedRide = repo.findById(t.getRideId()).orElse(null);
             if (bookedRide == null) continue;
             if (bookedRide.getDateOfRide().equals(ride.getDateOfRide()) && bookedRide.getTime().equals(ride.getTime())){
-                throw new CustomException("Passenger already has a ride booked at same time");
+                this.rideBookingErrorMessage = "Passenger already has a ride booked at same time";
+                System.out.println(this.rideBookingErrorMessage);
+                return false;
             }
         }
 
@@ -173,6 +191,7 @@ public class RideServiceImpl implements RideService{
 
         ticket.setCompleted(false);
         ticket.setActive(false);
+        ticket.setCancelled(true);
         ticketRepo.save(ticket);
         return true;
     }
@@ -192,6 +211,7 @@ public class RideServiceImpl implements RideService{
             ticketRepo.save(ticket);
         }
 
+        ride.setActive(false);
         ride.setCancelled(true);
         repo.save(ride);
 

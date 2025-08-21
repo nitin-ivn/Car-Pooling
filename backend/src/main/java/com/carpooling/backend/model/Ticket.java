@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -32,4 +33,5 @@ public class Ticket implements Serializable {
     private boolean completed;
     private boolean cancelled;
     private boolean active;
+    private LocalDateTime creationDate;
 }

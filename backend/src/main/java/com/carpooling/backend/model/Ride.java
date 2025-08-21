@@ -34,7 +34,6 @@ public class Ride implements Serializable {
     private double price;
     private boolean active;
     private boolean cancelled;
-    private int noOfPassengers;
     private int maxNumberOfPassengers;
 
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
