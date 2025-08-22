@@ -19,4 +19,6 @@ public interface RideService {
     boolean cancelPassengerRide(String ticketId);
 
     boolean cancelHostedRide(String rideId);
+
+    void updateActiveRides();
 }

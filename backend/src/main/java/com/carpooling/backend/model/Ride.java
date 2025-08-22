@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ public class Ride implements Serializable {
 
     @OneToMany(mappedBy = "ride", cascade = CascadeType.ALL)
     @OrderBy("stopId ASC")
+    @ToString.Exclude
     private List<Stops> stops;
 
 

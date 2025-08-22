@@ -8,9 +8,7 @@ import com.carpooling.backend.model.Ride;
 import com.carpooling.backend.model.Stops;
 import com.carpooling.backend.model.Ticket;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -218,4 +216,21 @@ public class RideServiceImpl implements RideService{
         return true;
     }
 
+    @Override
+    @Transactional
+    public void updateActiveRides(){
+        List<Ride> activeRides = repo.findByActiveTrue();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        for(Ride ride : activeRides){
+            LocalDateTime rideTime = LocalDateTime.of(ride.getDateOfRide(),ride.getTime());
+            if(rideTime.isBefore(now)){
+                System.out.println(ride);
+                ride.setActive(false);
+            }
+        }
+
+        repo.saveAll(activeRides);
+    }
 }
